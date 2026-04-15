@@ -3,11 +3,23 @@
 #bootstrap
 REPO_URL="https://github.com/josh56432/killingfloor-docker.git"
 
+# If we are not inside the repository root (missing key files), clone and re-run
 if [ ! -f "Dockerfile" ] || [ ! -f "entrypoint.sh" ]; then
-    echo "Not in repository root. Cloning..."
-    git clone "$REPO_URL"
-    cd ./killingfloor-docker
-    exec "$0" "$@"
+    echo "Not in repository root. Cloning from $REPO_URL ..."
+    if ! git clone "$REPO_URL"; then
+        echo "ERROR: git clone failed. Check REPO_URL and network."
+        exit 1
+    fi
+    cd "killingfloor-docker" || exit 1
+    # Instead of exec "$0", just run the script from the cloned location
+    if [ -f "$(basename "$0")" ]; then
+        exec "$(basename "$0")" "$@"
+    elif [ -f "build.sh" ]; then
+        exec ./build.sh "$@"
+    else
+        echo "ERROR: Could not find build script in cloned repo."
+        exit 1
+    fi
 fi
 
 # Detect available container runtimes
