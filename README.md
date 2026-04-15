@@ -28,7 +28,7 @@ If you wish to host this for friends to connect either set a game password throu
 port forward the server through your router and share your public IP with them (if you have one from your ISP),
 or alternatively host a wireguard server either on the same machine or on the LAN (beefier NIC required) and
 create individual tunnels for each friend, this way you only need to port forward the wireguard port (default 51820).
-I much prefer this method, since I imported the built image do kubernetes and on the same cluster host a wg-easy instance.
+I much prefer this method, since I imported the built image to kubernetes on the same cluster as a wg-easy instance.
 
 Useful links:
 
