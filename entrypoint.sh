@@ -5,35 +5,28 @@ SERVER_ROOT="/home/steam/server"
 SYSTEM_DIR="$SERVER_ROOT/System"
 INI="$SYSTEM_DIR/KillingFloor.ini"
 PORT=${UIPORT:-8075}        # default
-USER="${ADMINUNAME:-admin}"
-PASS="${ADMINPWD:-changeme}"
+HOSTUSER="${ADMINUNAME:-admin}"
+HOSTPASS="${ADMINPWD:-changeme}"
 CUSTOM_CONFIG_DIR="/home/steam/custom_config"
 
-export LD_LIBRARY_PATH=/home/steam/.local/share/Steam/steamcmd/linux32
+export LD_LIBRARY_PATH="/home/steam/.local/share/Steam/steamcmd/linux32"
+
 cd "$SYSTEM_DIR"
 
 # Launch bare server to generate ini file
 if [ ! -f "$INI" ]; then
     echo "[+] KillingFloor.ini not found — generating via bare server boot..."
 
-    ./ucc-bin-real server KF-BioticsLab?game=KFmod.KFGameType -nohomedir &
+    ./ucc-bin "server KF-BioticsLab?game=KFmod.KFGameType -nohomedir" &
     UCC_PID=$!
 
     # Give UE2 time to write config files
-     echo "[+] Waiting for KillingFloor.ini to be generated..."
-    while [ ! -f "$INI" ]; do
-        sleep 1
-    done
-
-    # Extra wait to ensure file is fully written
-    echo "[+] KillingFloor.ini found"
-    sleep 5
+    sleep 10
 
     echo "[+] Stopping bootstrap server (PID $UCC_PID)"
     kill "$UCC_PID"
     wait "$UCC_PID" 2>/dev/null || true
 fi
-
 
 if [ -d "$CUSTOM_CONFIG_DIR" ]; then
     echo "[+] Copying custom config files from $CUSTOM_CONFIG_DIR to $SYSTEM_DIR"
@@ -47,12 +40,12 @@ fi
 
 # Admin access
 if grep -q "^\[Engine.AccessControl\]" "$INI"; then
-    sed -i "/^\[Engine.AccessControl\]/,/^\[/{s/^AdminPassword=.*/AdminPassword=${PASS}/}" "$INI"
+    sed -i "/^\[Engine.AccessControl\]/,/^\[/{s/^AdminPassword=.*/AdminPassword=${HOSTPASS}/}" "$INI"
 else
     cat >> "$INI" <<EOF
 
 [Engine.AccessControl]
-AdminPassword=${PASS}
+AdminPassword=${HOSTPASS}
 EOF
 fi
 
@@ -76,6 +69,6 @@ fi
 
 echo "[+] Starting Killing Floor server..."
 
-exec ./ucc-bin-real server \
-  "KF-westlondon.rom?game=KFmod.KFGameType?VACSecured=true?MaxPlayers=6?GameLength=2?AdminName=${USER}?AdminPassword=${PASS}" \
+exec ./ucc-bin server \
+  "KF-westlondon.rom?game=KFmod.KFGameType?VACSecured=true?MaxPlayers=6?GameLength=2?AdminName=${HOSTUSER}?AdminPassword=${HOSTPASS}" \
   -nohomedir

@@ -5,12 +5,11 @@ ARG HOSTPASS
 ARG STEAMGUARD
 
 RUN mkdir /home/steam/server
-# Install the game server files
+
 RUN ./steamcmd.sh +force_install_dir /home/steam/server \
     +login "${HOSTUSER}" "${HOSTPASS}" "${STEAMGUARD}" \
     +app_update 215360 +quit
 
-WORKDIR /home/steam/server/System
 
 COPY ./addons/ /home/steam/server/
 RUN rm /home/steam/server/README
@@ -20,4 +19,8 @@ COPY ./config /home/steam/custom_config
 RUN rm /home/steam/custom_config/README
 
 COPY --chmod=755 entrypoint.sh /entrypoint.sh
+
+USER root
+WORKDIR /home/steam/server/System
+
 ENTRYPOINT ["/entrypoint.sh"]
