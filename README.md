@@ -21,8 +21,10 @@ Prerequisites
 
 - Git (obviously)
 - Docker / Podman
-- X86 or X86_64 (i386 / amd64) (IMPORTANT: aarch64 and riscv do not have a version of this steamcmd built for them) 
+- X86 or X86_64 (i386 / amd64) debian based systems (IMPORTANT: aarch64 and riscv do not have a version of this steamcmd built for them) 
 - A dedicated steam account to host the server
+
+If you want support to be expanded to other OS distributions feel free to create a pull request :)
 
 Minimum requirements:
 
