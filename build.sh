@@ -11,7 +11,16 @@ if [ ! -f "Dockerfile" ] || [ ! -f "entrypoint.sh" ]; then
         exit 1
     fi
     cd "killingfloor-docker" || exit 1
-    # Instead of exec "$0", just run the script from the cloned location
+
+    # If running from a pipe, don't re-exec — just continue
+    if [ ! -t 0 ] && [ "$0" = "bash" ]; then
+        echo "Running from pipe — continuing without re‑execution."
+        # Re-run the script from the file we just cloned, but not via exec
+        ./build.sh "$@"
+        exit $?
+    fi
+
+    # Otherwise, re‑exec normally
     if [ -f "$(basename "$0")" ]; then
         exec "$(basename "$0")" "$@"
     elif [ -f "build.sh" ]; then
