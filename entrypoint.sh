@@ -32,7 +32,7 @@ echo "[+] Ensuring WebAdmin is enabled..."
 # WebAdmin section
 if grep -q "^\[UWeb.WebServer\]" "$INI"; then
     sed -i '/^\[UWeb.WebServer\]/,/^\[/{s/^bEnabled=.*/bEnabled=True/}' "$INI"
-    sed -i '/^\[UWeb.WebServer\]/,/^\[/{s/^ListenPort=.*/ListenPort=${PORT}/}' "$INI"
+    sed -i "/^\[UWeb.WebServer\]/,/^\[/{s/^ListenPort=.*/ListenPort=${PORT}/}" "$INI"
 else
     cat >> "$INI" <<EOF
 
@@ -44,7 +44,7 @@ fi
 
 # Admin access
 if grep -q "^\[Engine.AccessControl\]" "$INI"; then
-    sed -i '/^\[Engine.AccessControl\]/,/^\[/{s/^AdminPassword=.*/AdminPassword=${PASS}/}' "$INI"
+    sed -i "/^\[Engine.AccessControl\]/,/^\[/{s/^AdminPassword=.*/AdminPassword=${PASS}/}" "$INI"
 else
     cat >> "$INI" <<EOF
 
