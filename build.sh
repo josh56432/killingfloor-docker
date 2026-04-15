@@ -75,8 +75,8 @@ echo
 
 echo "Building with dummy guard code to trigger email..."
 $CONTAINER_CMD build \
-  --build-arg USER="$STEAM_USER" \
-  --build-arg PASS="$STEAM_PASS" \
+  --build-arg HOSTUSER="$STEAM_USER" \
+  --build-arg HOSTPASS="$STEAM_PASS" \
   --build-arg STEAMGUARD=XXXXX \
   -t "$IMAGE_NAME" .
 
@@ -92,8 +92,8 @@ cp -r ./addons/System/* ./config/
 
 echo "Rebuilding with correct guard code..."
 $CONTAINER_CMD build \
-  --build-arg USER="$STEAM_USER" \
-  --build-arg PASS="$STEAM_PASS" \
+  --build-arg HOSTUSER="$STEAM_USER" \
+  --build-arg HOSTPASS="$STEAM_PASS" \
   --build-arg STEAMGUARD="$GUARD_CODE" \
   -t "$IMAGE_NAME" .
 
