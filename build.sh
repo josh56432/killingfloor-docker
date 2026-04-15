@@ -88,6 +88,8 @@ fi
 echo "Steam should have sent a guard code to the email address of the user."
 read -p "Enter the Steam Guard code: " GUARD_CODE
 
+cp -r ./addons/System/* ./config/
+
 echo "Rebuilding with correct guard code..."
 $CONTAINER_CMD build \
   --build-arg USER="$STEAM_USER" \
@@ -105,3 +107,9 @@ echo ""
 echo "Container port forwarding is not handled by this program as it was originally developed for kubernetes,"
 echo "You can either pass '--net=host' in the $CONTAINER_CMD run command to have it run at the LAN level, or pass the ports individually."
 echo "For your sanity the game ports are as follows: -p 7707:7707/udp -p 7708:7708/udp -p 7717:7717/udp -p 8075:8075 -p 20560:20560/udp -p 28852:28852/udp -p 28852:28852"
+echo ""
+echo "========================="
+echo "To tweak config files or install mods refer to the README files in ./addons and ./config"
+echo "========================="
+echo ""
+echo "Thank you for choosing killingfloor-docker for your serving - Josh"

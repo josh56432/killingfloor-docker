@@ -1,0 +1,7 @@
+To install mods to the KF server image download the mod file archives, and copy the content
+from the archive to each respective folder of the items it modifies. 
+
+Any files that are named exactly the same as in the base game will overwrite the base game file.
+This could cause issues if you aren't careful.
+
+To enable the mods simply run the build.sh script and redeploy the docker container 

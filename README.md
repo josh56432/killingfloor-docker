@@ -92,6 +92,33 @@ Environment Variables
 | ADMINUNAME   | admin     | WebAdmin username     |
 | ADMINPWD     | changeme  | WebAdmin password     |
 
+Mods & Addons
+-------------
+
+To tweak the KillingFloor.ini file (there is a default one in ./config) use a basic text editor to edit
+the file then re-run build.sh to install it.
+
+To add mods / addons download the mod package and find the folders respective to the ones in ./addons
+then simply put the correct files in the correct folders. Once they are all copied over, and the relevant setups are performed, re-run build.sh to install
+
+There are README files for reference in the folders.
+
+If you need a default config file to edit it and the mod package doesn't provide a full default, you can copy and paste
+the generated configs by doing the following:
+
+```
+docker ps // find the name of the server running kfserver
+docker exec -it <NAME> /bin/bash
+ls
+```
+This will list all config files in the System folder (where KillingFloor.ini lives)
+
+```
+cat <CONFIGNAME>
+```
+This will display the contents of the config, then copy and paste them into a new file in the ./config
+folder. On run the server will install your custom files.
+
 Ports
 -----
 

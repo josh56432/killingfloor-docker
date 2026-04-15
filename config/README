@@ -1,0 +1,2 @@
+To override any KF ini file needed, or any system file for that matter place it in this folder,
+On run it will replace the default settings.

@@ -7,6 +7,7 @@ INI="$SYSTEM_DIR/KillingFloor.ini"
 PORT=${UIPORT:-8075}        # default
 USER="${ADMINUNAME:-admin}"
 PASS="${ADMINPWD:-changeme}"
+CUSTOM_CONFIG_DIR="/home/steam/custom_config"
 
 export LD_LIBRARY_PATH=/home/steam/.local/share/Steam/steamcmd/linux32
 cd "$SYSTEM_DIR"
@@ -19,14 +20,43 @@ if [ ! -f "$INI" ]; then
     UCC_PID=$!
 
     # Give UE2 time to write config files
-    sleep 10
+     echo "[+] Waiting for KillingFloor.ini to be generated..."
+    while [ ! -f "$INI" ]; do
+        sleep 1
+    done
+
+    # Extra wait to ensure file is fully written
+    echo "[+] KillingFloor.ini found"
+    sleep 5
 
     echo "[+] Stopping bootstrap server (PID $UCC_PID)"
     kill "$UCC_PID"
     wait "$UCC_PID" 2>/dev/null || true
 fi
 
-# Enable web admin through ini file sed
+
+if [ -d "$CUSTOM_CONFIG_DIR" ]; then
+    echo "[+] Copying custom config files from $CUSTOM_CONFIG_DIR to $SYSTEM_DIR"
+
+    cp -rf "$CUSTOM_CONFIG_DIR/"* "$SYSTEM_DIR/" 2>/dev/null || true
+
+    echo "[+] Custom config files applied."
+else
+    echo "[!] Custom config directory $CUSTOM_CONFIG_DIR not found – skipping."
+fi
+
+# Admin access
+if grep -q "^\[Engine.AccessControl\]" "$INI"; then
+    sed -i "/^\[Engine.AccessControl\]/,/^\[/{s/^AdminPassword=.*/AdminPassword=${PASS}/}" "$INI"
+else
+    cat >> "$INI" <<EOF
+
+[Engine.AccessControl]
+AdminPassword=${PASS}
+EOF
+fi
+
+# Force enable web admin through ini file sed
 echo "[+] Ensuring WebAdmin is enabled..."
 
 # WebAdmin section
@@ -42,16 +72,7 @@ ListenPort=${PORT}
 EOF
 fi
 
-# Admin access
-if grep -q "^\[Engine.AccessControl\]" "$INI"; then
-    sed -i "/^\[Engine.AccessControl\]/,/^\[/{s/^AdminPassword=.*/AdminPassword=${PASS}/}" "$INI"
-else
-    cat >> "$INI" <<EOF
 
-[Engine.AccessControl]
-AdminPassword=${PASS}
-EOF
-fi
 
 echo "[+] Starting Killing Floor server..."
 
