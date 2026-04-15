@@ -2,7 +2,7 @@ FROM docker.io/cm2network/steamcmd:latest
 
 ARG USER
 ARG PASS
-ARG STEAMGUARD=XXXXX   # dummy default
+ARG STEAMGUARD
 
 RUN mkdir /home/steam/server
 
