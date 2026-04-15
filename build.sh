@@ -96,10 +96,11 @@ $CONTAINER_CMD build \
   -t "$IMAGE_NAME" .
 
 echo "Done. Run with: "
-echo "$CONTAINER_CMD run -e ADMINUNAME=username -e ADMINPWD=password ${IMAGE_NAME}"
+echo "$CONTAINER_CMD run --net=host -e ADMINUNAME=username -e ADMINPWD=password ${IMAGE_NAME}"
 echo "Where username and password are your desired WebUI username and password."
 echo ""
 echo "You may also change the port the WebUI is hosted on by passing '-e UIPORT=8075' or any other given port."
+echo "To run in background pass -d in the $CONTAINER_CMD command (daemonised)"
 echo ""
 echo "Container port forwarding is not handled by this program as it was originally developed for kubernetes,"
 echo "You can either pass '--net=host' in the $CONTAINER_CMD run command to have it run at the LAN level, or pass the ports individually."
