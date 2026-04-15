@@ -16,7 +16,7 @@ cd "$SYSTEM_DIR"
 if [ ! -f "$INI" ]; then
     echo "[+] KillingFloor.ini not found — generating via bare server boot..."
 
-    ./ucc-bin server KF-BioticsLab?game=KFmod.KFGameType -nohomedir &
+    ./ucc-bin-real server KF-BioticsLab?game=KFmod.KFGameType -nohomedir &
     UCC_PID=$!
 
     # Give UE2 time to write config files
@@ -76,6 +76,6 @@ fi
 
 echo "[+] Starting Killing Floor server..."
 
-exec ./ucc-bin server \
+exec ./ucc-bin-real server \
   "KF-westlondon.rom?game=KFmod.KFGameType?VACSecured=true?MaxPlayers=6?GameLength=2?AdminName=${USER}?AdminPassword=${PASS}" \
   -nohomedir
