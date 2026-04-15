@@ -84,19 +84,22 @@ To use podman simply replace "docker" with "podman" it should be identical.
 Environment Variables
 ---------------------
 
-Variable      Default     Description
-UIPORT        8075       WebAdmin port
-ADMINUNAME    admin      WebAdmin username
-ADMINPWD      changeme   WebAdmin password
+| Variable     | Default   | Description           |
+|--------------|-----------|-----------------------|
+| UIPORT       | 8075      | WebAdmin port         |
+| ADMINUNAME   | admin     | WebAdmin username     |
+| ADMINPWD     | changeme  | WebAdmin password     |
 
 Ports
 -----
 
-Ports                Protocol  Purpose
-7707-7708            UDP       Game clients
-7717                 UDP       LAN discovery
-8075                 TCP       WebAdmin
-20560, 28852         UDP       Steam/GameSpy
+| Ports               | Protocol | Purpose          |
+|---------------------|----------|------------------|
+| 7707-7708           | UDP      | Game clients     |
+| 7717                | UDP      | LAN discovery    |
+| 8075                | TCP      | WebAdmin         |
+| 20560, 28852        | UDP      | Steam/GameSpy    |
+
 
 Notes
 -----
