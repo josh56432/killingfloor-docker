@@ -9,7 +9,6 @@ Uses the steamcmd docker image from [cm2network/steamcmd](https://hub.docker.com
 
 **Quick Start**
 ---------------
-_I STRONGLY RECOMMEND YOU READ FURTHER IF YOU ARE NOT FAMILIAR WITH DOCKER OR STEAMCMD_
 
 If you know what you are doing this one-liner should be the fastest way to set things up:
 
