@@ -108,7 +108,6 @@ spec:
         app: killing-floor
     spec:
       nodeSelector:
-        node-role.kubernetes.io/worker: "true"
         kubernetes.io/arch: amd64
       dnsPolicy: None
       dnsConfig:
