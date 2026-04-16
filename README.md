@@ -97,7 +97,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: killing-floor
-  namespace: wg-easy
 spec:
   replicas: 1
   selector:
