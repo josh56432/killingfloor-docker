@@ -83,6 +83,98 @@ Or with --net=host (no port mapping needed):
 
 To use podman simply replace "docker" with "podman" it should be identical.
 
+**Kubernetes**
+--------------
+
+To import the image to k3s you can run the following command (kfserver is the image name)
+
+```podman save kfserver | sudo k3s ctr images import -```
+
+And then create a yaml to run the image in a deployment, using networking of your choosing. This is an example using metallb-ip:
+
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: killing-floor
+  namespace: wg-easy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: killing-floor
+  template:
+    metadata:
+      labels:
+        app: killing-floor
+    spec:
+      nodeSelector:
+        node-role.kubernetes.io/worker: "true"
+        kubernetes.io/arch: amd64
+      dnsPolicy: None
+      dnsConfig:
+        nameservers:
+          - 1.1.1.1
+      containers:
+        - name: killing-floor
+          image: localhost/kfserver:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 7707
+              protocol: UDP
+            - containerPort: 7708
+              protocol: UDP
+            - containerPort: 7717
+              protocol: UDP
+            - containerPort: 8075
+              protocol: TCP
+            - containerPort: 20560
+              protocol: UDP
+            - containerPort: 28852
+              protocol: TCP
+            - containerPort: 28852
+              protocol: UDP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: killing-floor
+spec:
+  type: LoadBalancer
+  loadBalancerIP: 192.168.1.121
+  selector:
+    app: killing-floor
+  ports:
+    - name: game
+      port: 7707
+      targetPort: 7707
+      protocol: UDP
+    - name: query
+      port: 7708
+      targetPort: 7708
+      protocol: UDP
+    - name: gamespy
+      port: 7717
+      targetPort: 7717
+      protocol: UDP
+    - name: webadmin
+      port: 8075
+      targetPort: 8075
+      protocol: TCP
+    - name: steam
+      port: 20560
+      targetPort: 20560
+      protocol: UDP
+    - name: masterserver-tcp
+      port: 28852
+      targetPort: 28852
+      protocol: TCP
+    - name: masterserver-udp
+      port: 28852
+      targetPort: 28852
+      protocol: UDP
+```
+
 Environment Variables
 ---------------------
 
