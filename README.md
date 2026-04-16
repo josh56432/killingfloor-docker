@@ -33,7 +33,7 @@ Minimum requirements:
 - 25GB Storage (Final image is 3GB but during build it can vary, 25GB is the safe side)
 - 10BASE-T capable NIC (10Mbps)
 
-Or if you are absolutely stuck with a raspberry pi the Pi3B+ 1G should be powerful enough (just about) to run QEMU-i386 and host it there.
+Or if you are absolutely stuck with a raspberry pi the pi 4 should be powerful enough (just about) to run QEMU-i386 and host it there.
  
 If you wish to host this for friends to connect either set a game password through the webUI, 
 port forward the server through your router and share your public IP with them (if you have one from your ISP),
