@@ -88,7 +88,7 @@ To use podman simply replace "docker" with "podman" it should be identical.
 
 To import the image to k3s you can run the following command (kfserver is the image name)
 
-```podman save kfserver | sudo k3s ctr images import -```
+```docker save kfserver | sudo k3s ctr images import -```
 
 And then create a yaml to run the image in a deployment, using networking of your choosing. This is an example using metallb-ip:
 
